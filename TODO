@@ -1,0 +1,8 @@
+the resources list does not seem to get filled
+
+consider having a course Id for each resource perhaps
+
+resource has a course Id which is not being set
+
+correct the db
+
