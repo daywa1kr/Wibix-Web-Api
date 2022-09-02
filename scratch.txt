@@ -1,7 +1,166 @@
-cvsp 
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using wibix_api.Models;
 
-themes: heroism, mn and the gods, primitiveness and civilization 
+namespace wibix_api.Controllers;
 
-esthetic heroism
+[ApiController]
+[Route("[controller]")]
+public class ResourceController : Controller
+{
+    public static IWebHostEnvironment env{get; set;}=null!;
+    public static AppDbContext ctx{get;set;}=null!;
+    public ResourceController(IWebHostEnvironment _env, AppDbContext _ctx)
+    {
+        env=_env;
+        ctx=_ctx;
+    }
 
-ereshkigal   
+    [HttpGet("Schools")]
+    public IActionResult GetSchools(){
+        return Ok(ctx.Schools.ToList());
+    }
+
+    [HttpGet("Courses")]
+    public IActionResult GetCourses(){
+        return Ok(ctx.Courses.ToList());
+    }
+
+    [HttpGet("Resources")]
+    public IActionResult GetResources(int id){
+        var x=ctx.Courses.Find(id);
+        Console.WriteLine(x.CourseName);
+        if(x==null) return BadRequest("NoContent resources");
+        // foreach (var item in x.Resources)
+        // {
+        //     Console.WriteLine(item.Title);
+        // }
+        return Ok();
+    }
+
+    private int FindSchoolIdByName(string name){
+       var query=ctx.Schools.Where(s=>s.Name==name).ToList();
+
+        if(query==null || query.Count==0)
+           return -1;
+        return query[0].Id;
+    }
+
+    private int FindCourseIdByName(string name){
+       var query=ctx.Courses.Where(s=>s.CourseName==name).ToList();
+
+        if(query==null || query.Count==0)
+           return -1;
+        return query[0].Id;
+    }
+
+    [HttpPost("Upload")]
+    public IActionResult Upload([FromForm]CreateResource res)
+    {
+        if(res.File!=null)
+        {
+            string folder="Uploads/";
+            folder+=res.File.FileName;
+            string serverFolder=Path.Combine(env.WebRootPath, folder);
+
+            res.File.CopyTo(new FileStream(serverFolder, FileMode.Create));
+
+            int schoolId=FindSchoolIdByName(res.School);
+
+            //school does not exist then course wont exist either
+            if(schoolId==-1){
+
+                School s=new School(){
+                    Name=res.School,
+                    Courses=new List<Course>()
+                };
+
+                ctx.Schools.Attach(s);
+                ctx.SaveChanges();
+                
+                //int sid=FindSchoolIdByName(res.School);
+                //School fs=ctx.Schools.Find(sid);
+
+                Course c=new Course();
+                c.CourseName=res.CourseName;                
+                c.School=s;
+                c.SchoolId=s.Id;
+                c.Resources=new List<Resource>();
+
+                Resource r=new Resource(){
+                    CourseName=res.CourseName,
+                    Title=res.Title,
+                    School=res.School,
+                    File=res.File,
+                    Description=res.Description,
+                    FileName=res.File.FileName,
+                    CourseId=0
+                };
+                r.Id=0;
+                r.Date=DateTime.Now;
+
+                c.Resources.Add(r);
+
+                s.Courses.Add(c);
+                ctx.Schools.Attach(s); //come to this this might cause a bug of there being 2 identical items
+                ctx.SaveChanges();
+                return Ok("created new school with new course");
+            }
+            //school exists
+            else{
+                int courseId=FindCourseIdByName(res.CourseName);
+                //course doesnt exist
+                if(courseId==-1){
+                    Resource r=new Resource(){
+                        CourseName=res.CourseName,
+                        Title=res.Title,
+                        School=res.School,
+                        File=res.File,
+                        Description=res.Description,
+                        FileName=res.File.FileName,
+                        CourseId=0
+                    };
+                    r.Id=0;
+                    r.Date=DateTime.Now;
+
+                    Course c=new Course();
+                    c.CourseName=res.CourseName;
+                    c.SchoolId=schoolId;
+                    c.School=ctx.Schools.Find(schoolId);
+                    c.Resources=new List<Resource>();
+                    c.Resources.Add(r);
+
+                    ctx.Courses.Add(c);
+                    ctx.SaveChanges();
+                    return Ok("created course");
+                }
+                //course exists
+                else{
+
+                    Course c=ctx.Courses.Find(courseId);
+                    int n=c.Resources.Count;
+                    Resource r=new Resource(){
+                        CourseName=res.CourseName,
+                        Title=res.Title,
+                        School=res.School,
+                        File=res.File,
+                        Description=res.Description,
+                        FileName=res.File.FileName,
+                        CourseId=courseId
+                    };
+                    r.Id=(n+1);
+                    r.Date=DateTime.Now;
+                    c.Resources.Add(r);
+                    ctx.Courses.Update(c);
+                    ctx.SaveChanges();
+
+                    return Ok("added resource to existing course");
+                }
+            }
+        }
+        else{
+            return BadRequest("file null");
+        }
+    }
+
+}

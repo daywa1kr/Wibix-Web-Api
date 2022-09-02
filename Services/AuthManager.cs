@@ -12,13 +12,10 @@ public class AuthManager:  IAuthManager{
     private readonly UserManager<User> userManager=null!;
     private readonly IConfiguration configuration=null!;
 
-    //public User user{get; set;}
-
     public AuthManager(UserManager<User> _userManager, IConfiguration _configuration)
     {
         userManager=_userManager;
         configuration=_configuration;
-        //user=_user;
     }
 
     public async Task<string> CreateToken(User user)

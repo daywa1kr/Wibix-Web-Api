@@ -44,22 +44,22 @@ namespace wibix_api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "91c42866-a97b-4384-81f0-67a484b3211a",
-                            ConcurrencyStamp = "5b405be9-d838-43c8-90b9-06c9748f3c38",
+                            Id = "5f321771-794e-429e-a8a2-19982fbbb22e",
+                            ConcurrencyStamp = "4de0cd64-aae4-4bdc-bd22-0cae2c9e352c",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "305dc019-03f9-41c4-9e4b-08a2100bcf44",
-                            ConcurrencyStamp = "fe257fe2-b8ea-4415-ae92-f523ada6e174",
+                            Id = "f9a36378-7c56-4e47-b47b-8d0550e22891",
+                            ConcurrencyStamp = "b5e56b38-a357-4c20-bec3-cf71ec3e0686",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e1ced420-77e7-40e7-95ac-5b4dcb78f4b2",
-                            ConcurrencyStamp = "f7bb71ee-73aa-4068-8091-39eacfd60bcb",
+                            Id = "b4d62a71-443c-4ed2-bb15-e1302e69b613",
+                            ConcurrencyStamp = "e94961a4-3e93-45d9-9a85-adab694e66c3",
                             Name = "Mod",
                             NormalizedName = "MOD"
                         });
@@ -196,7 +196,7 @@ namespace wibix_api.Migrations
                         {
                             Id = 1,
                             Body = "This is our first answer",
-                            Date = new DateTime(2022, 9, 2, 2, 38, 10, 860, DateTimeKind.Local).AddTicks(403),
+                            Date = new DateTime(2022, 9, 2, 23, 17, 15, 817, DateTimeKind.Local).AddTicks(6563),
                             PostId = 1,
                             Rating = 0
                         });
@@ -255,7 +255,7 @@ namespace wibix_api.Migrations
                             Id = 1,
                             AnswerCount = 1,
                             Body = "<p>This is our first thread.</p><p>We are happy to have you here.</p>",
-                            Date = new DateTime(2022, 9, 2, 2, 38, 10, 860, DateTimeKind.Local).AddTicks(209),
+                            Date = new DateTime(2022, 9, 2, 23, 17, 15, 817, DateTimeKind.Local).AddTicks(6510),
                             Heading = "Welcome to Wibix Forum",
                             Rating = 0
                         });
@@ -362,10 +362,6 @@ namespace wibix_api.Migrations
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")

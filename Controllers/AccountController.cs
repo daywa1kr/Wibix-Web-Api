@@ -34,10 +34,9 @@ public class AccountController : Controller{
         u.Bio="";
         u.UserName=user.UserName;
         u.Email=user.Email;
-        u.Password=user.Password;
         u.Roles=new List<string>(){"User"};
 
-        var results= await userManager.CreateAsync(u, u.Password);
+        var results= await userManager.CreateAsync(u, user.Password);
         if(!results.Succeeded){
             foreach(var e in results.Errors){
                 ModelState.AddModelError(e.Code, e.Description);
@@ -86,7 +85,7 @@ public class AccountController : Controller{
             
         }
         catch (Exception ex)
-        {
+        { 
             
             return Problem (ex.HelpLink, ex.StackTrace, statusCode: 500);
         }

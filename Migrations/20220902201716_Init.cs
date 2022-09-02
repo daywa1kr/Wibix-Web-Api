@@ -28,7 +28,6 @@ namespace wibix_api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false),
                     Bio = table.Column<string>(type: "TEXT", nullable: false),
                     ImageSrc = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -267,27 +266,27 @@ namespace wibix_api.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "305dc019-03f9-41c4-9e4b-08a2100bcf44", "fe257fe2-b8ea-4415-ae92-f523ada6e174", "Admin", "ADMIN" });
+                values: new object[] { "5f321771-794e-429e-a8a2-19982fbbb22e", "4de0cd64-aae4-4bdc-bd22-0cae2c9e352c", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "91c42866-a97b-4384-81f0-67a484b3211a", "5b405be9-d838-43c8-90b9-06c9748f3c38", "User", "USER" });
+                values: new object[] { "b4d62a71-443c-4ed2-bb15-e1302e69b613", "e94961a4-3e93-45d9-9a85-adab694e66c3", "Mod", "MOD" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "e1ced420-77e7-40e7-95ac-5b4dcb78f4b2", "f7bb71ee-73aa-4068-8091-39eacfd60bcb", "Mod", "MOD" });
+                values: new object[] { "f9a36378-7c56-4e47-b47b-8d0550e22891", "b5e56b38-a357-4c20-bec3-cf71ec3e0686", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "Id", "AnswerCount", "Body", "Date", "Heading", "Rating" },
-                values: new object[] { 1, 1, "<p>This is our first thread.</p><p>We are happy to have you here.</p>", new DateTime(2022, 9, 2, 2, 38, 10, 860, DateTimeKind.Local).AddTicks(209), "Welcome to Wibix Forum", 0 });
+                values: new object[] { 1, 1, "<p>This is our first thread.</p><p>We are happy to have you here.</p>", new DateTime(2022, 9, 2, 23, 17, 15, 817, DateTimeKind.Local).AddTicks(6510), "Welcome to Wibix Forum", 0 });
 
             migrationBuilder.InsertData(
                 table: "Answers",
                 columns: new[] { "Id", "Body", "Date", "PostId", "Rating" },
-                values: new object[] { 1, "This is our first answer", new DateTime(2022, 9, 2, 2, 38, 10, 860, DateTimeKind.Local).AddTicks(403), 1, 0 });
+                values: new object[] { 1, "This is our first answer", new DateTime(2022, 9, 2, 23, 17, 15, 817, DateTimeKind.Local).AddTicks(6563), 1, 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_PostId",
