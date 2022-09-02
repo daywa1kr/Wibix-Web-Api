@@ -37,7 +37,7 @@ public class AccountController : Controller{
         u.Password=user.Password;
         u.Roles=new List<string>(){"User"};
 
-        var results= await userManager.CreateAsync(u);
+        var results= await userManager.CreateAsync(u, u.Password);
         if(!results.Succeeded){
             foreach(var e in results.Errors){
                 ModelState.AddModelError(e.Code, e.Description);
@@ -67,15 +67,23 @@ public class AccountController : Controller{
         
    
         try
-        {   User u=await userManager.FindByNameAsync(userModel.UserName);
+        {   
+            //var user = new User { UserName = userModel.UserName, Password = userModel.Password };
+            //var result = await userManager.CreateAsync(user, userModel.Password);
+            User u=await userManager.FindByNameAsync(userModel.UserName);
         
             //Console.WriteLine(await userManager.CheckPasswordAsync(u, userModel.Password));
+
+            //var isCorrect = await userManager.CheckPasswordAsync(user, userModel.Password);
+
 
             if(! await authManager.ValidateUser(userModel, u)){
                 return Unauthorized();
             }
 
+            
             return Accepted(new {Token=await authManager.CreateToken(u)});
+            
         }
         catch (Exception ex)
         {

@@ -47,9 +47,9 @@ public class AuthManager:  IAuthManager{
 
     private SigningCredentials GetSigningCredentials()
     {
-        var sectret=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt").GetSection("Key").Value));
+        var secret=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt").GetSection("Key").Value));
 
-        return new SigningCredentials(sectret, SecurityAlgorithms.HmacSha256);
+        return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
     }
 
     private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
