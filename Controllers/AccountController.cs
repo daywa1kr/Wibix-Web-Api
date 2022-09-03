@@ -19,11 +19,19 @@ public class AccountController : Controller{
         authManager=_authManager;
     }
 
-    [HttpGet]
+    [HttpGet("Users")]
     public IActionResult GetUsers(){
 
         return Ok(userManager.Users.ToList());
     }
+
+    [HttpGet("User")]
+    public async Task<IActionResult> GetUser(){
+        string username=User.Claims.First(c=>c.Type=="UserName").Value;
+        var user= await userManager.FindByNameAsync(username);
+        return Ok(user);
+    }
+
 
     [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] UserRegister user){
@@ -49,9 +57,9 @@ public class AccountController : Controller{
             await userManager.AddToRoleAsync(u, r);
         }
         
-        await signInManager.SignInAsync(u, false);
+        //await signInManager.SignInAsync(u, false);
 
-        return Accepted("registered user");
+        return Accepted(u);
         
     }
 
@@ -92,5 +100,7 @@ public class AccountController : Controller{
     
 
     }
+
+
     
 }

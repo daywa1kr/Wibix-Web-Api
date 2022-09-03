@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using wibix_api.Models;
 
@@ -60,6 +61,7 @@ public class ForumController : Controller{
         return Ok();
     }
 
+    [Authorize]
     [HttpPost("AddAnswer")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

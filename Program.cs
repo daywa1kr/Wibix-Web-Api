@@ -78,7 +78,8 @@ builder.Services.AddAuthentication(options=>{
         ValidateLifetime=true,
         ValidateIssuerSigningKey=true,
         ValidIssuer=builder.Configuration.GetSection("Jwt").GetSection("Issuer").Value,
-        IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt").GetSection("Key").Value))
+        IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt").GetSection("Key").Value)),
+        ValidAudience=builder.Configuration.GetSection("Jwt").GetSection("Audience").Value
     };
 });
 

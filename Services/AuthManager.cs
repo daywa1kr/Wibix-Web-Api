@@ -52,9 +52,10 @@ public class AuthManager:  IAuthManager{
     private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
     {
         var jwtSetting=configuration.GetSection("Jwt");
-        var expiration=DateTime.Now.AddMinutes(Convert.ToDouble(jwtSetting.GetSection("Lifetime").Value));
+        var expiration=DateTime.Now.AddDays(Convert.ToDouble(jwtSetting.GetSection("Lifetime").Value));
         var token=new JwtSecurityToken(
             issuer: jwtSetting.GetSection("Issuer").Value,
+            audience: jwtSetting.GetSection("Audience").Value,
             claims: claims,
             expires: expiration,
             signingCredentials: signingCredentials
