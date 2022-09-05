@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using wibix_api.Models;
 
@@ -129,7 +130,7 @@ public class ResourceController : Controller
         return query[0].Id;
     }
 
-
+    [Authorize]
     [HttpPost("Upload")]
     public IActionResult Upload([FromForm]CreateResource res)
     {

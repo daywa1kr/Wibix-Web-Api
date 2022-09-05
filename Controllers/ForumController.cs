@@ -44,6 +44,7 @@ public class ForumController : Controller{
         return Ok(x);
     }
 
+    [Authorize]
     [HttpPost("AddPost")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -80,6 +81,7 @@ public class ForumController : Controller{
         return Ok();
     }
 
+    [Authorize]
     [HttpPost("UpvotePost/{id:int}")]
     public IActionResult Upvote(int id) {
         var x=ctx.Posts.Find(id);
@@ -88,6 +90,7 @@ public class ForumController : Controller{
         return Ok();
     }
 
+    [Authorize]
     [HttpPost("DownvotePost/{id:int}")]
     public IActionResult Downvote(int id) {
         var x=ctx.Posts.Find(id);

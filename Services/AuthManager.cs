@@ -8,7 +8,6 @@ using wibix_api.Models;
 namespace wibix_api.Services;
 
 public class AuthManager:  IAuthManager{
-
     private readonly UserManager<User> userManager=null!;
     private readonly IConfiguration configuration=null!;
 

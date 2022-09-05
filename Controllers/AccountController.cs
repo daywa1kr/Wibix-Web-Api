@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using wibix_api.Models;
@@ -13,10 +14,12 @@ public class AccountController : Controller{
     private readonly UserManager<User> userManager=null!;
     private readonly SignInManager<User> signInManager=null!;
     private readonly IAuthManager authManager=null!;
-    public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager, IAuthManager _authManager){
+    public static IWebHostEnvironment env{get; set;}=null!;
+    public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager, IAuthManager _authManager, IWebHostEnvironment _env){
         userManager=_userManager;
         signInManager=_signInManager;
         authManager=_authManager;
+        env=_env;
     }
 
     [HttpGet("Users")]
@@ -56,8 +59,6 @@ public class AccountController : Controller{
         {
             await userManager.AddToRoleAsync(u, r);
         }
-        
-        //await signInManager.SignInAsync(u, false);
 
         return Accepted(u);
         
@@ -70,37 +71,47 @@ public class AccountController : Controller{
         {
             return BadRequest("model not valid");
         }
-
-        
-   
         try
         {   
-            //var user = new User { UserName = userModel.UserName, Password = userModel.Password };
-            //var result = await userManager.CreateAsync(user, userModel.Password);
             User u=await userManager.FindByNameAsync(userModel.UserName);
-        
-            //Console.WriteLine(await userManager.CheckPasswordAsync(u, userModel.Password));
-
-            //var isCorrect = await userManager.CheckPasswordAsync(user, userModel.Password);
-
 
             if(! await authManager.ValidateUser(userModel, u)){
                 return Unauthorized();
             }
 
-            
-            return Accepted(new {Token=await authManager.CreateToken(u)});
+            return Accepted(new {Token=await authManager.CreateToken(u),
+            User=u});
             
         }
         catch (Exception ex)
-        { 
-            
+        {  
             return Problem (ex.HelpLink, ex.StackTrace, statusCode: 500);
         }
-    
-
     }
 
+    [Authorize]
+    [HttpPost("UploadPfp/{id}")]
+    public async Task<IActionResult> Upload(IFormFile img, string id)
+    {
+        if(img!=null)
+        {
+            string fileName=new String(Path.GetFileNameWithoutExtension(img.FileName).Take(10).ToArray()).Replace(' ', '-');
+            fileName=fileName+DateTime.Now.ToString("yymmssfff")+Path.GetExtension(img.FileName);
+            string serverFolder=Path.Combine(env.WebRootPath, "Pfps/", fileName);
 
-    
+            img.CopyTo(new FileStream(serverFolder, FileMode.Create));
+
+            var user=await userManager.FindByIdAsync(id);
+
+            user.ImageSrc=fileName;
+
+            await userManager.UpdateAsync(user);
+
+            return Ok("added pfp");
+
+        }
+        else{
+            return BadRequest("file null");
+        }
+    }
 }
