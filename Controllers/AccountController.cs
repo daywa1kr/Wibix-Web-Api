@@ -90,28 +90,41 @@ public class AccountController : Controller{
     }
 
     [Authorize]
-    [HttpPost("UploadPfp/{id}")]
-    public async Task<IActionResult> Upload(IFormFile img, string id)
+    [HttpPost("UploadProfile")]
+    public async Task<IActionResult> Upload([FromForm]UpdateProfile model)
     {
-        if(img!=null)
+        if(model.File!=null)
         {
-            string fileName=new String(Path.GetFileNameWithoutExtension(img.FileName).Take(10).ToArray()).Replace(' ', '-');
-            fileName=fileName+DateTime.Now.ToString("yymmssfff")+Path.GetExtension(img.FileName);
-            string serverFolder=Path.Combine(env.WebRootPath, "Pfps/", fileName);
+            string fileName=new String(Path.GetFileNameWithoutExtension(model.File.FileName).Take(10).ToArray()).Replace(' ', '-');
+            fileName=fileName+DateTime.Now.ToString("yymmssfff")+Path.GetExtension(model.File.FileName);
+            string serverFolder=Path.Combine(env.WebRootPath, "Uploads/", fileName);
 
-            img.CopyTo(new FileStream(serverFolder, FileMode.Create));
+            model.File.CopyTo(new FileStream(serverFolder, FileMode.Create));
 
-            var user=await userManager.FindByIdAsync(id);
+            var user=await userManager.FindByIdAsync(model.Id);
 
             user.ImageSrc=fileName;
+            user.Bio=model.Bio;
+            user.Email=model.Email;
 
             await userManager.UpdateAsync(user);
 
-            return Ok("added pfp");
+            return Ok("updated profile");
 
         }
         else{
             return BadRequest("file null");
         }
     }
+
+    [Authorize]
+    [HttpDelete("DeleteUser/{id}")]
+    public async Task<IActionResult> UpdateBio(string id){
+        var user=await userManager.FindByIdAsync(id);
+
+        await userManager.DeleteAsync(user);
+
+        return Ok("user deleted");
+    }
+
 }

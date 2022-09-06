@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "f6j63lrdQyb+xWIUfujqf7s6/3EbdufZKbfPxC2zDfM=",
+  "Hash": "OBePq4/B43wtJ/wvyJUCY+Zmjyb4DqaCjAGODSVpwRA=",
   "Source": "wibix-api",
   "BasePath": "_content/wibix-api",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\Guide-to-A221719661.pdf",
+      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\3021962cd9220225902.png",
       "SourceId": "wibix-api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
       "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/Guide-to-A221719661.pdf",
+      "RelativePath": "Uploads/3021962cd9220225902.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -31,15 +31,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\Guide-to-A221719661.pdf"
+      "OriginalItemSpec": "wwwroot\\Uploads\\3021962cd9220225902.png"
     },
     {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\homework5-222618572.pdf",
+      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\57a2ab3048220858863.png",
       "SourceId": "wibix-api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
       "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/homework5-222618572.pdf",
+      "RelativePath": "Uploads/57a2ab3048220858863.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -48,15 +48,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\homework5-222618572.pdf"
+      "OriginalItemSpec": "wwwroot\\Uploads\\57a2ab3048220858863.png"
     },
     {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\homework5-224834077.pdf",
+      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\D9MbnnCXkA221345641.png",
       "SourceId": "wibix-api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
       "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/homework5-224834077.pdf",
+      "RelativePath": "Uploads/D9MbnnCXkA221345641.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -65,15 +65,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\homework5-224834077.pdf"
+      "OriginalItemSpec": "wwwroot\\Uploads\\D9MbnnCXkA221345641.png"
     },
     {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\homework6-225418424.pdf",
+      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\p1225444360.png",
       "SourceId": "wibix-api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
       "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/homework6-225418424.pdf",
+      "RelativePath": "Uploads/p1225444360.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -82,15 +82,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\homework6-225418424.pdf"
+      "OriginalItemSpec": "wwwroot\\Uploads\\p1225444360.png"
     },
     {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\homework7-225507357.pdf",
+      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\p2225939432.png",
       "SourceId": "wibix-api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
       "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/homework7-225507357.pdf",
+      "RelativePath": "Uploads/p2225939432.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -99,7 +99,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\homework7-225507357.pdf"
+      "OriginalItemSpec": "wwwroot\\Uploads\\p2225939432.png"
     }
   ]
 }

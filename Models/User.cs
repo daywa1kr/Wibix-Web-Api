@@ -15,6 +15,16 @@ public class UserRegister:UserLogin{
    public string? Email {get; set;}
 }
 
+public class UpdateProfile{
+    public string? Id{get; set;}
+
+    public string? Email{get; set;}
+
+    public string? Bio{get; set;}
+    [NotMapped]
+    public IFormFile? File{get; set;}
+}
+
 public class User : IdentityUser{
 
     // public string UserName{get; set;}=null!;
