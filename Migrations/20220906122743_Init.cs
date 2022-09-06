@@ -28,8 +28,10 @@ namespace wibix_api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
+                    DisplayName = table.Column<string>(type: "TEXT", nullable: true),
                     Bio = table.Column<string>(type: "TEXT", nullable: false),
                     ImageSrc = table.Column<string>(type: "TEXT", nullable: true),
+                    Rating = table.Column<int>(type: "INTEGER", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -59,6 +61,7 @@ namespace wibix_api.Migrations
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Rating = table.Column<int>(type: "INTEGER", nullable: false),
                     AnswerCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
                     Heading = table.Column<string>(type: "TEXT", nullable: true),
                     Body = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -195,6 +198,7 @@ namespace wibix_api.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Rating = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
                     Body = table.Column<string>(type: "TEXT", nullable: true),
                     PostId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -241,6 +245,7 @@ namespace wibix_api.Migrations
                     Rating = table.Column<int>(type: "INTEGER", nullable: false),
                     CourseId = table.Column<int>(type: "INTEGER", nullable: false),
                     SchoolId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
                     ResourceId = table.Column<int>(type: "INTEGER", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
                     CourseName = table.Column<string>(type: "TEXT", nullable: true),
@@ -266,27 +271,27 @@ namespace wibix_api.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "5f321771-794e-429e-a8a2-19982fbbb22e", "4de0cd64-aae4-4bdc-bd22-0cae2c9e352c", "User", "USER" });
+                values: new object[] { "021e553b-e139-45bf-bdd6-b10ea923403d", "cca3ea3d-b3f0-4666-923e-f1d7d5849d0f", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b4d62a71-443c-4ed2-bb15-e1302e69b613", "e94961a4-3e93-45d9-9a85-adab694e66c3", "Mod", "MOD" });
+                values: new object[] { "16d9792c-d435-455c-8f82-f61b00a75181", "0d5cd588-fba4-41bd-b44b-d037ddaf682f", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f9a36378-7c56-4e47-b47b-8d0550e22891", "b5e56b38-a357-4c20-bec3-cf71ec3e0686", "Admin", "ADMIN" });
+                values: new object[] { "f4d90d19-b6e1-44d6-b0cf-efd27c3a90d2", "ade6290e-ab86-47fa-a5c5-3f2cd4b31196", "Mod", "MOD" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "AnswerCount", "Body", "Date", "Heading", "Rating" },
-                values: new object[] { 1, 1, "<p>This is our first thread.</p><p>We are happy to have you here.</p>", new DateTime(2022, 9, 2, 23, 17, 15, 817, DateTimeKind.Local).AddTicks(6510), "Welcome to Wibix Forum", 0 });
+                columns: new[] { "Id", "AnswerCount", "Body", "Date", "Heading", "Rating", "UserId" },
+                values: new object[] { 1, 1, "<p>This is our first thread.</p><p>We are happy to have you here.</p>", new DateTime(2022, 9, 6, 15, 27, 42, 996, DateTimeKind.Local).AddTicks(4197), "Welcome to Wibix Forum", 0, null });
 
             migrationBuilder.InsertData(
                 table: "Answers",
-                columns: new[] { "Id", "Body", "Date", "PostId", "Rating" },
-                values: new object[] { 1, "This is our first answer", new DateTime(2022, 9, 2, 23, 17, 15, 817, DateTimeKind.Local).AddTicks(6563), 1, 0 });
+                columns: new[] { "Id", "Body", "Date", "PostId", "Rating", "UserId" },
+                values: new object[] { 1, "This is our first answer", new DateTime(2022, 9, 6, 15, 27, 42, 996, DateTimeKind.Local).AddTicks(4255), 1, 0, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_PostId",

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace wibix_api.Models;
 
 public class CreateAnswer{
@@ -9,5 +11,8 @@ public class Answer : CreateAnswer{
     public DateTime Date{get; set;} 
     public int Rating{get; set;}
     public Post Post{get; set;}=null!;
+    public string? UserId{get; set;}
     
+    [NotMapped]
+    public VisibleInfo User{get; set;}=null!;
 }

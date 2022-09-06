@@ -24,17 +24,28 @@ public class AccountController : Controller{
 
     [HttpGet("Users")]
     public IActionResult GetUsers(){
-
-        return Ok(userManager.Users.ToList());
+        List<VisibleInfo> users=new List<VisibleInfo>();
+        List<User> list=userManager.Users.ToList();
+        foreach (var i in list)
+        {
+            users.Add(new VisibleInfo{
+                Id=i.Id,
+                DisplayName=i.DisplayName,
+                UserName=i.UserName,
+                Email=i.Email,
+                Rating=i.Rating,
+                ImageSrc=i.ImageSrc,
+                Bio=i.Bio
+            });
+        }
+        return Ok(users);
     }
 
-    [HttpGet("User")]
-    public async Task<IActionResult> GetUser(){
-        string username=User.Claims.First(c=>c.Type=="UserName").Value;
-        var user= await userManager.FindByNameAsync(username);
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(string id){
+        var user= await userManager.FindByIdAsync(id);
         return Ok(user);
     }
-
 
     [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] UserRegister user){
@@ -45,6 +56,7 @@ public class AccountController : Controller{
         u.Bio="";
         u.UserName=user.UserName;
         u.Email=user.Email;
+        u.DisplayName=user.UserName;
         u.Roles=new List<string>(){"User"};
 
         var results= await userManager.CreateAsync(u, user.Password);
@@ -65,7 +77,7 @@ public class AccountController : Controller{
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] UserLogin userModel)
+    public async Task<IActionResult> Login([FromBody] UserLogin model)
     {
         if (!ModelState.IsValid)
         {
@@ -73,14 +85,24 @@ public class AccountController : Controller{
         }
         try
         {   
-            User u=await userManager.FindByNameAsync(userModel.UserName);
+            User u=await userManager.FindByNameAsync(model.UserName);
 
-            if(! await authManager.ValidateUser(userModel, u)){
+            if(! await authManager.ValidateUser(model, u)){
                 return Unauthorized();
             }
 
+            VisibleInfo user=new VisibleInfo{
+                Id=u.Id,
+                DisplayName=u.DisplayName,
+                UserName=u.UserName,
+                Email=u.Email,
+                Rating=u.Rating,
+                ImageSrc=u.ImageSrc,
+                Bio=u.Bio
+            };
+
             return Accepted(new {Token=await authManager.CreateToken(u),
-            User=u});
+            VisibleInfo=user});
             
         }
         catch (Exception ex)
@@ -90,8 +112,8 @@ public class AccountController : Controller{
     }
 
     [Authorize]
-    [HttpPost("UploadProfile")]
-    public async Task<IActionResult> Upload([FromForm]UpdateProfile model)
+    [HttpPost("UpdateProfile")]
+    public async Task<IActionResult> UpdateProfile([FromForm]UpdateProfile model)
     {
         if(model.File!=null)
         {
@@ -105,12 +127,12 @@ public class AccountController : Controller{
 
             user.ImageSrc=fileName;
             user.Bio=model.Bio;
+            user.DisplayName=model.DisplayName;
             user.Email=model.Email;
 
             await userManager.UpdateAsync(user);
 
             return Ok("updated profile");
-
         }
         else{
             return BadRequest("file null");
@@ -119,7 +141,7 @@ public class AccountController : Controller{
 
     [Authorize]
     [HttpDelete("DeleteUser/{id}")]
-    public async Task<IActionResult> UpdateBio(string id){
+    public async Task<IActionResult> DeleteUser(string id){
         var user=await userManager.FindByIdAsync(id);
 
         await userManager.DeleteAsync(user);

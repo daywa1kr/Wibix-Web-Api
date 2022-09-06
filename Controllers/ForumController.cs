@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using wibix_api.Models;
 
@@ -9,8 +10,10 @@ namespace wibix_api.Controllers;
 [Route("[controller]")]
 public class ForumController : Controller{
     private AppDbContext ctx{get; set;}
-    public ForumController(AppDbContext _ctx){
+   private readonly UserManager<User> userManager=null!;
+    public ForumController(AppDbContext _ctx, UserManager<User> _userManager){
         ctx=_ctx; 
+        userManager=_userManager;
     }
 
     [HttpGet("Upvoted")]
@@ -31,25 +34,41 @@ public class ForumController : Controller{
     public IActionResult GetHottest(){
         List<Post> posts=ctx.Posts.OrderBy(p=>p.AnswerCount).ToList();
         posts.Reverse();
+
         return Ok(posts);
     }
 
     [HttpGet("{id:int}")]
-    public IActionResult GetPost(int id){
+    public async Task<IActionResult> GetPost(int id){
         var x=ctx.Posts.Find(id);
         List<Answer> answers=ctx.Answers.Where(a=>a.PostId==id).OrderBy(a=>a.Rating).ToList();
         answers.Reverse();
-            if(x!=null)
-                x.Answers=answers; 
+
+        if(x!=null){
+            User u=await userManager.FindByIdAsync(x.UserId);
+
+            VisibleInfo user=new VisibleInfo{
+                Id=u.Id,
+                DisplayName=u.DisplayName,
+                UserName=u.UserName,
+                Email=u.Email,
+                Rating=u.Rating,
+                ImageSrc=u.ImageSrc,
+                Bio=u.Bio
+            };
+            x.Answers=answers;
+            x.User=user;
+        }
+        
         return Ok(x);
     }
 
     [Authorize]
-    [HttpPost("AddPost")]
+    [HttpPost("AddPost/{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult AddPost([FromBody]CreatePost post){
+    public async Task<IActionResult> AddPost([FromBody]CreatePost post, string id){
         Post p=new Post();
         p.Heading=post.Heading;
         p.Body=post.Body;
@@ -57,17 +76,32 @@ public class ForumController : Controller{
         p.Date=DateTime.Now;
         p.Answers=new List<Answer>();
         p.AnswerCount=0;
+        p.UserId=id;
+        
+        User u=await userManager.FindByIdAsync(id);
+        VisibleInfo user=new VisibleInfo{
+            Id=u.Id,
+            DisplayName=u.DisplayName,
+            UserName=u.UserName,
+            Email=u.Email,
+            Rating=u.Rating,
+            ImageSrc=u.ImageSrc,
+            Bio=u.Bio
+        };
+
+        p.User=user;
+
         ctx.Posts.Add(p);
         ctx.SaveChanges();
-        return Ok();
+        return Ok("post added");
     }
 
     [Authorize]
-    [HttpPost("AddAnswer")]
+    [HttpPost("AddAnswer/{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult AddAnswer(CreateAnswer ans){
+    public async Task<IActionResult> AddAnswer(CreateAnswer ans, string id){
         Answer a=new Answer();
         a.Body=ans.Body;
         a.PostId=ans.PostId;
@@ -76,9 +110,23 @@ public class ForumController : Controller{
         a.Post=p;
         a.Date=DateTime.Now;
         a.Rating=0;
+        a.UserId=id;
+
+        User u=await userManager.FindByIdAsync(id);
+        VisibleInfo user=new VisibleInfo{
+            Id=u.Id,
+            DisplayName=u.DisplayName,
+            UserName=u.UserName,
+            Email=u.Email,
+            Rating=u.Rating,
+            ImageSrc=u.ImageSrc,
+            Bio=u.Bio
+        };
+
+        a.User=user;
         ctx.Answers.Add(a);
         ctx.SaveChanges();
-        return Ok();
+        return Ok("added answer");
     }
 
     [Authorize]

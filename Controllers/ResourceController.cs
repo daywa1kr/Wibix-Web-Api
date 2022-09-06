@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using wibix_api.Models;
 
@@ -11,10 +12,12 @@ public class ResourceController : Controller
 {
     public static IWebHostEnvironment env{get; set;}=null!;
     public static AppDbContext ctx{get;set;}=null!;
-    public ResourceController(IWebHostEnvironment _env, AppDbContext _ctx)
+    private readonly UserManager<User> userManager=null!;
+    public ResourceController(IWebHostEnvironment _env, AppDbContext _ctx, UserManager<User> _userManager)
     {
         env=_env;
         ctx=_ctx;
+        userManager=_userManager;
     }
 
     [HttpGet("Schools")]
@@ -58,13 +61,29 @@ public class ResourceController : Controller
         return Ok(x);
     }
 
-    [HttpGet("Resources/{id:int}")] //get res with id 
-    public IActionResult GetResource(int id){
+    [HttpGet("{id:int}")] //get res with id 
+    public async Task<IActionResult> GetResource(int id){
         var x=ctx.Resources.Find(id);
         
         if(x!=null){
             List<Resource> similar=ctx.Resources.Where(c=>(c.CourseId==x.CourseId && c.Id!=x.Id)).OrderBy(a=>a.Rating).ToList();
             x.Similar=similar;
+        }
+
+        if(x!=null){
+            User u=await userManager.FindByIdAsync(x.UserId);
+
+            VisibleInfo user=new VisibleInfo();
+            
+            user.Id=u.Id;
+            user.DisplayName=u.DisplayName;
+            user.UserName=u.UserName;
+            user.Email=u.Email;
+            user.Rating=u.Rating;
+            user.ImageSrc=u.ImageSrc;
+            user.Bio=u.Bio;
+            
+            x.User=user;
         }
         return Ok(x);
     }
@@ -131,11 +150,23 @@ public class ResourceController : Controller
     }
 
     [Authorize]
-    [HttpPost("Upload")]
-    public IActionResult Upload([FromForm]CreateResource res)
+    [HttpPost("Upload/{id}")]
+    public async Task<IActionResult> Upload([FromForm]CreateResource res, string id)
     {
         if(res.File!=null)
         {
+
+            User u= await userManager.FindByIdAsync(id);
+            VisibleInfo user=new VisibleInfo{
+                Id=u.Id,
+                DisplayName=u.DisplayName,
+                UserName=u.UserName,
+                Email=u.Email,
+                Rating=u.Rating,
+                ImageSrc=u.ImageSrc,
+                Bio=u.Bio
+            };
+
             string fileName=new String(Path.GetFileNameWithoutExtension(res.File.FileName).Take(10).ToArray()).Replace(' ', '-');
             fileName=fileName+DateTime.Now.ToString("yymmssfff")+Path.GetExtension(res.File.FileName);
             string serverFolder=Path.Combine(env.WebRootPath, "Uploads/", fileName);
@@ -172,7 +203,8 @@ public class ResourceController : Controller
                     FileName=fileName,
                     Rating=0,
                     CourseId=0,
-                    SchoolId=s.Id
+                    SchoolId=s.Id,
+                    UserId=id
                 };
                 r.Date=DateTime.Now;
 
@@ -197,8 +229,10 @@ public class ResourceController : Controller
                         FileName=fileName,
                         Rating=0,
                         CourseId=0,
+                        Date=DateTime.Now,
+                        UserId=id
                     };
-                    r.Date=DateTime.Now;
+                    
 
                     Course c=new Course();
                     c.CourseName=res.CourseName;
@@ -229,7 +263,8 @@ public class ResourceController : Controller
                         FileName=fileName,
                         CourseId=courseId,
                         Rating=0,
-                        Date=DateTime.Now
+                        Date=DateTime.Now,
+                        UserId=id
                     };
 
                     ctx.Resources.Add(r);

@@ -9,6 +9,7 @@ public class CreateResource{
     public string? School{get; set;}
     [NotMapped]
     public IFormFile? File{get; set;}
+
 }
 
 public class Resource :CreateResource{
@@ -19,5 +20,8 @@ public class Resource :CreateResource{
     public int Rating{get; set;}
     public int CourseId{get; set;}
     public int SchoolId{get; set;}
+    public string? UserId{get; set;}
+    [NotMapped]
+    public VisibleInfo User{get; set;}=null!;
     public IList<Resource> Similar{get;set;}=null!;
 }

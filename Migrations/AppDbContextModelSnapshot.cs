@@ -44,22 +44,22 @@ namespace wibix_api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5f321771-794e-429e-a8a2-19982fbbb22e",
-                            ConcurrencyStamp = "4de0cd64-aae4-4bdc-bd22-0cae2c9e352c",
+                            Id = "021e553b-e139-45bf-bdd6-b10ea923403d",
+                            ConcurrencyStamp = "cca3ea3d-b3f0-4666-923e-f1d7d5849d0f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "f9a36378-7c56-4e47-b47b-8d0550e22891",
-                            ConcurrencyStamp = "b5e56b38-a357-4c20-bec3-cf71ec3e0686",
+                            Id = "16d9792c-d435-455c-8f82-f61b00a75181",
+                            ConcurrencyStamp = "0d5cd588-fba4-41bd-b44b-d037ddaf682f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b4d62a71-443c-4ed2-bb15-e1302e69b613",
-                            ConcurrencyStamp = "e94961a4-3e93-45d9-9a85-adab694e66c3",
+                            Id = "f4d90d19-b6e1-44d6-b0cf-efd27c3a90d2",
+                            ConcurrencyStamp = "ade6290e-ab86-47fa-a5c5-3f2cd4b31196",
                             Name = "Mod",
                             NormalizedName = "MOD"
                         });
@@ -185,6 +185,9 @@ namespace wibix_api.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
@@ -196,7 +199,7 @@ namespace wibix_api.Migrations
                         {
                             Id = 1,
                             Body = "This is our first answer",
-                            Date = new DateTime(2022, 9, 2, 23, 17, 15, 817, DateTimeKind.Local).AddTicks(6563),
+                            Date = new DateTime(2022, 9, 6, 15, 27, 42, 996, DateTimeKind.Local).AddTicks(4255),
                             PostId = 1,
                             Rating = 0
                         });
@@ -245,6 +248,9 @@ namespace wibix_api.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Posts");
@@ -255,7 +261,7 @@ namespace wibix_api.Migrations
                             Id = 1,
                             AnswerCount = 1,
                             Body = "<p>This is our first thread.</p><p>We are happy to have you here.</p>",
-                            Date = new DateTime(2022, 9, 2, 23, 17, 15, 817, DateTimeKind.Local).AddTicks(6510),
+                            Date = new DateTime(2022, 9, 6, 15, 27, 42, 996, DateTimeKind.Local).AddTicks(4197),
                             Heading = "Welcome to Wibix Forum",
                             Rating = 0
                         });
@@ -295,6 +301,9 @@ namespace wibix_api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -340,6 +349,9 @@ namespace wibix_api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -371,6 +383,9 @@ namespace wibix_api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityStamp")

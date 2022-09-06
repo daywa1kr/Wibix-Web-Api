@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "OBePq4/B43wtJ/wvyJUCY+Zmjyb4DqaCjAGODSVpwRA=",
+  "Hash": "3U3nzjOsnljHU9NfGIkg/byPG/+2euc+GRPGuVriVyI=",
   "Source": "wibix-api",
   "BasePath": "_content/wibix-api",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\3021962cd9220225902.png",
+      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\Guide-to-A222134643.pdf",
       "SourceId": "wibix-api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
       "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/3021962cd9220225902.png",
+      "RelativePath": "Uploads/Guide-to-A222134643.pdf",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -31,15 +31,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\3021962cd9220225902.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Guide-to-A222134643.pdf"
     },
     {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\57a2ab3048220858863.png",
+      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\Guide-to-A222608357.pdf",
       "SourceId": "wibix-api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
       "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/57a2ab3048220858863.png",
+      "RelativePath": "Uploads/Guide-to-A222608357.pdf",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -48,58 +48,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\57a2ab3048220858863.png"
-    },
-    {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\D9MbnnCXkA221345641.png",
-      "SourceId": "wibix-api",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
-      "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/D9MbnnCXkA221345641.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\D9MbnnCXkA221345641.png"
-    },
-    {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\p1225444360.png",
-      "SourceId": "wibix-api",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
-      "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/p1225444360.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\p1225444360.png"
-    },
-    {
-      "Identity": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\Uploads\\p2225939432.png",
-      "SourceId": "wibix-api",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Lilit\\Desktop\\wibix-api\\wwwroot\\",
-      "BasePath": "_content/wibix-api",
-      "RelativePath": "Uploads/p2225939432.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Uploads\\p2225939432.png"
+      "OriginalItemSpec": "wwwroot\\Uploads\\Guide-to-A222608357.pdf"
     }
   ]
 }

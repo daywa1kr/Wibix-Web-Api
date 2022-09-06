@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace wibix_api.Models;
 
 public class CreatePost{
@@ -11,4 +13,8 @@ public class Post : CreatePost{
     public int Rating{get; set;}
     public int AnswerCount{get; set;}
     public IList<Answer> Answers{get; set;}=null!;
+    public string? UserId{get; set;}
+
+    [NotMapped]
+    public VisibleInfo User{get; set;}=null!;
 }
