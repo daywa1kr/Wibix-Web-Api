@@ -25,9 +25,10 @@ public class AccountController : Controller{
     [HttpGet("Users")]
     public IActionResult GetUsers(){
         List<VisibleInfo> users=new List<VisibleInfo>();
-        List<User> list=userManager.Users.ToList();
+        List<User> list=userManager.Users.OrderBy(u=>u.Rating).ToList();
+        list.Reverse();
         foreach (var i in list)
-        {
+        { 
             users.Add(new VisibleInfo{
                 Id=i.Id,
                 DisplayName=i.DisplayName,

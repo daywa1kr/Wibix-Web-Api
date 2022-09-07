@@ -63,6 +63,12 @@ public class ForumController : Controller{
         return Ok(x);
     }
 
+    [HttpGet("GetPostsByUserId/{id}")]
+    public IActionResult GetPostsByUserId(string id){
+        var posts=ctx.Posts.Where(p=>p.UserId.Equals(id));
+        return Ok(posts);
+    }
+
     [Authorize]
     [HttpPost("AddPost/{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]

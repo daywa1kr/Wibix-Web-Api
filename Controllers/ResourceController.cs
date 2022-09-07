@@ -123,6 +123,13 @@ public class ResourceController : Controller
         return Ok(query[0].Id);
     }
 
+    [HttpGet("GetResourcesByUserId/{id}")]
+    public IActionResult GetResourcesByUserId(string id){
+        var posts=ctx.Resources.Where(p=>p.UserId.Equals(id));
+        return Ok(posts);
+    }
+
+
     [HttpPost("Like/{id:int}")]
     public IActionResult LikeResource(int id){
         var x=ctx.Resources.Find(id);
