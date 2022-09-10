@@ -52,7 +52,8 @@ public class AccountRepository : IAccountRepository
     {
         User u=await _userManager.FindByNameAsync(model.UserName);
 
-        if(! await _authManager.ValidateUser(model, u)){
+        if(! await _authManager.ValidateUser(model, u))
+        {
             return null!;
         }
 
