@@ -40,25 +40,25 @@ public class AppDbContext : IdentityDbContext<User>{
         modelBuilder.Entity<School>().HasMany(p=>p.Courses).WithOne(p=>p.School);
         modelBuilder.Entity<Post>().HasMany(p=>p.Answers).WithOne(p=>p.Post);
 
-        modelBuilder.Entity<Post>().HasData(
-            new Post{
-                Id=1,
-                Heading="Welcome to Wibix Forum",
-                Body="<p>This is our first thread.</p><p>We are happy to have you here.</p>",
-                Date=DateTime.Now,
-                Rating=0,
-                AnswerCount=1
-            }
-        );
-        modelBuilder.Entity<Answer>().HasData(
-            new Answer{
-                Id=1,
-                Body="This is our first answer",
-                Date=DateTime.Now,
-                Rating=0,
-                PostId=1
-            }
-        );
+        // modelBuilder.Entity<Post>().HasData(
+        //     new Post{
+        //         Id=1,
+        //         Heading="Welcome to Wibix Forum",
+        //         Body="<p>This is our first thread.</p><p>We are happy to have you here.</p>",
+        //         Date=DateTime.Now,
+        //         Rating=0,
+        //         AnswerCount=1
+        //     }
+        // );
+        // modelBuilder.Entity<Answer>().HasData(
+        //     new Answer{
+        //         Id=1,
+        //         Body="This is our first answer",
+        //         Date=DateTime.Now,
+        //         Rating=0,
+        //         PostId=1
+        //     }
+        // );
     }
 
 }

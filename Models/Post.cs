@@ -12,9 +12,8 @@ public class Post : CreatePost{
     public DateTime Date{get; set;} 
     public int Rating{get; set;}
     public int AnswerCount{get; set;}
-    public IList<Answer> Answers{get; set;}=null!;
-    public string? UserId{get; set;}
-
+    public IEnumerable<Answer> Answers{get; set;}=null!;
+    public string UserId{get; set;}=null!;
     [NotMapped]
     public VisibleInfo User{get; set;}=null!;
 }

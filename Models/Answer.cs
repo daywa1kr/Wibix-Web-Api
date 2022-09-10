@@ -10,7 +10,7 @@ public class Answer : CreateAnswer{
     public int Id{get; set;}
     public DateTime Date{get; set;} 
     public int Rating{get; set;}
-    public Post Post{get; set;}=null!;
+    public Post? Post{get; set;}=null!;
     public string? UserId{get; set;}
     
     [NotMapped]

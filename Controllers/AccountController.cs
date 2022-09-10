@@ -1,110 +1,66 @@
-using System.Diagnostics;
-using System.Net;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using wibix_api.Models;
-using wibix_api.Services;
+using wibix_api.Repositories;
 
 namespace wibix_api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class AccountController : Controller{
-    private readonly UserManager<User> userManager=null!;
-    private readonly SignInManager<User> signInManager=null!;
-    private readonly IAuthManager authManager=null!;
-    public static IWebHostEnvironment env{get; set;}=null!;
-    public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager, IAuthManager _authManager, IWebHostEnvironment _env){
-        userManager=_userManager;
-        signInManager=_signInManager;
-        authManager=_authManager;
-        env=_env;
+    private IAccountRepository _repo{get;set;}
+    public AccountController(IAccountRepository repo)
+    {
+        _repo=repo;
     }
 
     [HttpGet("Users")]
-    public IActionResult GetUsers(){
-        List<VisibleInfo> users=new List<VisibleInfo>();
-        List<User> list=userManager.Users.OrderBy(u=>u.Rating).ToList();
-        list.Reverse();
-        foreach (var i in list)
-        { 
-            users.Add(new VisibleInfo{
-                Id=i.Id,
-                DisplayName=i.DisplayName,
-                UserName=i.UserName,
-                Email=i.Email,
-                Rating=i.Rating,
-                ImageSrc=i.ImageSrc,
-                Bio=i.Bio
-            });
-        }
-        return Ok(users);
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult GetUsers()
+    {
+        return Ok(_repo.GetUsers());
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetUser(string id){
-        var user= await userManager.FindByIdAsync(id);
-        return Ok(user);
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetUser(string id)
+    {
+        return Ok(await _repo.GetUser(id));
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] UserRegister user){
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Register([FromBody] UserRegister user)
+    {
         if(!ModelState.IsValid)
-            return BadRequest();
-        
-        User u=new User();
-        u.Bio="";
-        u.UserName=user.UserName;
-        u.Email=user.Email;
-        u.DisplayName=user.UserName;
-        u.Roles=new List<string>(){"User"};
+            return BadRequest("Model state not valid");
+    
+        var results= await _repo.Register(user);
 
-        var results= await userManager.CreateAsync(u, user.Password);
-        if(!results.Succeeded){
-            foreach(var e in results.Errors){
+        if(!results.Succeeded)
+        {
+            foreach(var e in results.Errors)
+            {
                 ModelState.AddModelError(e.Code, e.Description);
             }
             return BadRequest(ModelState);
         }
-
-        foreach (var r in u.Roles)
-        {
-            await userManager.AddToRoleAsync(u, r);
-        }
-
-        return Accepted(u);
-        
+        return Accepted(); 
     }
 
     [HttpPost("Login")]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Login([FromBody] UserLogin model)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest("model not valid");
-        }
         try
         {   
-            User u=await userManager.FindByNameAsync(model.UserName);
-
-            if(! await authManager.ValidateUser(model, u)){
-                return Unauthorized();
-            }
-
-            VisibleInfo user=new VisibleInfo{
-                Id=u.Id,
-                DisplayName=u.DisplayName,
-                UserName=u.UserName,
-                Email=u.Email,
-                Rating=u.Rating,
-                ImageSrc=u.ImageSrc,
-                Bio=u.Bio
-            };
-
-            return Accepted(new {Token=await authManager.CreateToken(u),
-            VisibleInfo=user});
-            
+            return Accepted(await _repo.Login(model));
         }
         catch (Exception ex)
         {  
@@ -114,40 +70,35 @@ public class AccountController : Controller{
 
     [Authorize]
     [HttpPost("UpdateProfile")]
-    public async Task<IActionResult> UpdateProfile([FromForm]UpdateProfile model)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateProfile([FromForm]UserUpdate model)
     {
-        if(model.File!=null)
+        if(!ModelState.IsValid)
         {
-            string fileName=new String(Path.GetFileNameWithoutExtension(model.File.FileName).Take(10).ToArray()).Replace(' ', '-');
-            fileName=fileName+DateTime.Now.ToString("yymmssfff")+Path.GetExtension(model.File.FileName);
-            string serverFolder=Path.Combine(env.WebRootPath, "Uploads/", fileName);
-
-            model.File.CopyTo(new FileStream(serverFolder, FileMode.Create));
-
-            var user=await userManager.FindByIdAsync(model.Id);
-
-            user.ImageSrc=fileName;
-            user.Bio=model.Bio;
-            user.DisplayName=model.DisplayName;
-            user.Email=model.Email;
-
-            await userManager.UpdateAsync(user);
-
-            return Ok("updated profile");
+            return BadRequest("model state not valid");
         }
-        else{
-            return BadRequest("file null");
+        try
+        {
+            await _repo.UpdateProfile(model);
+            return Ok("profile updated");
+        }
+        catch (Exception ex)
+        {
+            return Problem (ex.HelpLink, ex.StackTrace, statusCode: 500);
         }
     }
 
     [Authorize]
     [HttpDelete("DeleteUser/{id}")]
-    public async Task<IActionResult> DeleteUser(string id){
-        var user=await userManager.FindByIdAsync(id);
-
-        await userManager.DeleteAsync(user);
-
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        await _repo.DeletProfile(id);
         return Ok("user deleted");
     }
-
 }

@@ -44,22 +44,22 @@ namespace wibix_api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "021e553b-e139-45bf-bdd6-b10ea923403d",
-                            ConcurrencyStamp = "cca3ea3d-b3f0-4666-923e-f1d7d5849d0f",
+                            Id = "abd55a43-acbd-43c6-9783-5a07f0ae272a",
+                            ConcurrencyStamp = "c4e5133a-722a-42a9-a4a1-a97243135cdd",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "16d9792c-d435-455c-8f82-f61b00a75181",
-                            ConcurrencyStamp = "0d5cd588-fba4-41bd-b44b-d037ddaf682f",
+                            Id = "edd0397b-dfde-4a78-baef-6d4c8a94092c",
+                            ConcurrencyStamp = "0b77fcaf-8f65-42ab-95a3-c3eeebc345cb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f4d90d19-b6e1-44d6-b0cf-efd27c3a90d2",
-                            ConcurrencyStamp = "ade6290e-ab86-47fa-a5c5-3f2cd4b31196",
+                            Id = "76cae4a7-8df6-4697-bfa6-def3b78585e1",
+                            ConcurrencyStamp = "dd6a8ff9-e5b8-437c-8202-49b7dd707ffd",
                             Name = "Mod",
                             NormalizedName = "MOD"
                         });
@@ -193,16 +193,6 @@ namespace wibix_api.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Answers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Body = "This is our first answer",
-                            Date = new DateTime(2022, 9, 6, 15, 27, 42, 996, DateTimeKind.Local).AddTicks(4255),
-                            PostId = 1,
-                            Rating = 0
-                        });
                 });
 
             modelBuilder.Entity("wibix_api.Models.Course", b =>
@@ -212,6 +202,7 @@ namespace wibix_api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CourseName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("NumberOfRes")
@@ -249,22 +240,12 @@ namespace wibix_api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("Posts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AnswerCount = 1,
-                            Body = "<p>This is our first thread.</p><p>We are happy to have you here.</p>",
-                            Date = new DateTime(2022, 9, 6, 15, 27, 42, 996, DateTimeKind.Local).AddTicks(4197),
-                            Heading = "Welcome to Wibix Forum",
-                            Rating = 0
-                        });
                 });
 
             modelBuilder.Entity("wibix_api.Models.Resource", b =>
@@ -277,6 +258,7 @@ namespace wibix_api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CourseName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Date")
@@ -295,15 +277,18 @@ namespace wibix_api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("School")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SchoolId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -342,7 +327,6 @@ namespace wibix_api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")

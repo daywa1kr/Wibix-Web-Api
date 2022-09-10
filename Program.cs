@@ -9,12 +9,18 @@ using System.Text;
 using wibix_api.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using wibix_api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 IWebHostEnvironment env = builder.Environment;
 
 builder.Services.AddControllers();
+
 builder.Services.AddScoped<IAuthManager, AuthManager>();
+builder.Services.AddScoped<IForumRepository, ForumRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
+
 builder.Services.AddMvc().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );

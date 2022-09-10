@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace wibix_api.Models;
 
 public class CreateResource{
-    public string? Title{get; set;}
-    public string? CourseName{get; set;}
+    public string Title{get; set;}=null!;
+    public string CourseName{get; set;}=null!;
     public string? Description{get; set;}
-    public string? School{get; set;}
+    public string School{get; set;}=null!;
     [NotMapped]
-    public IFormFile? File{get; set;}
+    public IFormFile File{get; set;}=null!;
 
 }
 
@@ -20,7 +20,7 @@ public class Resource :CreateResource{
     public int Rating{get; set;}
     public int CourseId{get; set;}
     public int SchoolId{get; set;}
-    public string? UserId{get; set;}
+    public string UserId{get; set;}=null!;
     [NotMapped]
     public VisibleInfo User{get; set;}=null!;
     public IList<Resource> Similar{get;set;}=null!;
