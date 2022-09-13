@@ -6,7 +6,7 @@ Backend ASP.NET Core 6 webapi for Wibix app.
 
 ### Features
 - Uses Microsoft Entity Framework for db management
-- Locally hosted SQLite database
+- SQLite database
 - IO handling with the database
 - Authentication and role based authorization with EF Identity and JWT
 - Saving files in a local directory
